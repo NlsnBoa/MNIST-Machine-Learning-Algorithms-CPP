@@ -5,9 +5,16 @@
 #include "stdint.h"
 #include "stdio.h"
 
+// This class represents a single data point
+// It has a feature vector and a label
+// The feature vector is a vector of uint8_t
+// The label is a uint8_t
+// The enumerated label is an int
+// The enumerated label is used to represent the label as an integer
+// A -> 1, B -> 2 ...
 class data 
 {
-  std::vector<uint8_t> * feature_vector; // no calss at end.
+  std::vector<uint8_t> * feature_vector; // no class at end.
   uint8_t label;
   int enum_label; // A -> 1, B -> 2 ...
 

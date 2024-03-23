@@ -17,20 +17,35 @@ void data_handler::read_feature_vector(std::string path)
   uint32_t header[4]; // Magic Number, Number of Images, Number of Rows, Number of Columns
   unsigned char bytes[4];
   FILE *file = fopen(path.c_str(), "r");
+
   if(file)
   {
+    // Read the header
+    // The header is 4 bytes long
+    // The first 4 bytes are the magic number
+    // The next 4 bytes are the number of images
+    // The next 4 bytes are the number of rows
+    // The next 4 bytes are the number of columns
     for(int i = 0; i < 4; i++)
     {
       if(fread(bytes, sizeof(bytes), 1, file))
       {
         header[i] = convert_to_little_endian(bytes);
+        printf("Header[%d]: %d\n", i, header[i]);
       }
     }
 
     printf("Done getting input file header.\n");
     int image_size = header[2] * header[3];
-    for(int i = 0; i < header[1]; i++)
+    int num_images = header[1];
+
+    // Read the image data
+    // Each image is 28x28 pixels
+    // Each pixel is a byte
+    // Each image is 28 * 28 = 784 bytes
+    for(int i = 0; i < num_images; i++)
     {
+      // Create a new data object
       data *d = new data();
       uint8_t element[1];
       for(int j = 0; j < image_size; j++)
@@ -56,7 +71,7 @@ void data_handler::read_feature_vector(std::string path)
 }
 
 
-void data_handler::read_feature_vector(std::string path)
+void data_handler::read_feature_labels(std::string path)
 {
   uint32_t header[2]; // Magic Number, Number of Images
   unsigned char bytes[4];
@@ -92,16 +107,19 @@ void data_handler::read_feature_vector(std::string path)
     exit(1);
   }
 }
+
 void data_handler::split_data()
 {
   std::unordered_set<int> indexes;
   int num_training = TRAIN_SET_PERCENT * data_array->size();
   int num_test = TEST_SET_PERCENT * data_array->size();
   int num_validation = VALIDATION_PERCENT * data_array->size();
+
   while(indexes.size() < num_training)
   {
     indexes.insert(rand() % data_array->size());
   }
+
   for(int i = 0; i < data_array->size(); i++)
   {
     if(indexes.find(i) != indexes.end())
@@ -112,6 +130,8 @@ void data_handler::split_data()
       test_data->push_back(data_array->at(i));
     }
   }
+
+
   indexes.clear();
   while(indexes.size() < num_test)
   {
