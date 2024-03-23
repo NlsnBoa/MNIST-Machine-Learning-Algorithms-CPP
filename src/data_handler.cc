@@ -14,6 +14,10 @@ data_handler::~data_handler()
 
 void data_handler::read_feature_vector(std::string path)
 {
+  // header[0] = magic number 
+  // header[1] = number of images
+  // header[2] = number of rows
+  // header[3] = number of columns
   uint32_t header[4]; // Magic Number, Number of Images, Number of Rows, Number of Columns
   unsigned char bytes[4];
   FILE *file = fopen(path.c_str(), "r");
@@ -48,8 +52,10 @@ void data_handler::read_feature_vector(std::string path)
       // Create a new data object
       data *d = new data();
       uint8_t element[1];
+      // Read the image data
       for(int j = 0; j < image_size; j++)
       {
+        // Read the pixel value
         if(fread(element, sizeof(element), 1, file))
         {
           d->append_to_feature_vector(element[0]);
@@ -59,6 +65,7 @@ void data_handler::read_feature_vector(std::string path)
           exit(1);
         }
       }
+      // Add the data object to the data array
       data_array->push_back(d);
     }
     printf("Successfully read and stored %lu feature vectors.\n", data_array->size());
@@ -73,11 +80,15 @@ void data_handler::read_feature_vector(std::string path)
 
 void data_handler::read_feature_labels(std::string path)
 {
+  // header[0] = magic number
+  // header[1] = number of labels
   uint32_t header[2]; // Magic Number, Number of Images
   unsigned char bytes[4];
   FILE *file = fopen(path.c_str(), "r");
+
   if(file)
   {
+    // Read the header
     for(int i = 0; i < 2; i++)
     {
       if(fread(bytes, sizeof(bytes), 1, file))
@@ -87,9 +98,14 @@ void data_handler::read_feature_labels(std::string path)
     }
 
     printf("Done getting label file header.\n");
-    for(int i = 0; i < header[1]; i++)
+    int num_labels = header[1];
+
+    // Read the label data
+    for(int i = 0; i < num_labels; i++)
     {
       uint8_t element[1];
+
+      // We must store the label in a data object it corresponds to
       if(fread(element, sizeof(element), 1, file))
       {
         data_array->at(i)->set_label(element[0]);
@@ -99,7 +115,7 @@ void data_handler::read_feature_labels(std::string path)
         exit(1);
       }
     }
-    printf("Successfully read and stored %lu labels.\n", data_array->size());
+    printf("Successfully read and stored labels.\n");
     
   } else 
   {

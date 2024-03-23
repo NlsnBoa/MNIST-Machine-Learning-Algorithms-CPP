@@ -19,7 +19,7 @@
 // The class also keeps track of the number of classes and the size of the feature vector
 // The class also keeps track of the mapping of class labels to enumerated values
 
-// an explanation of how MINST is stored: https://medium.com/theconsole/do-you-really-know-how-mnist-is-stored-600d69455937
+// an explanation of how MNIST is stored: https://medium.com/theconsole/do-you-really-know-how-mnist-is-stored-600d69455937
 class data_handler
 {
   std::vector<data *> *data_array; // all of the data (pre-split)
