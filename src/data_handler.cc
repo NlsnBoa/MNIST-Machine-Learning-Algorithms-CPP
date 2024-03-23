@@ -146,7 +146,7 @@ void data_handler::split_data()
   }
 
   // Test data
-  int count = 0;
+  count = 0;
   while(count < testing_size)
   {
     int rand_index = rand() % data_array->size(); // Random number between 0 and the size of the data array
@@ -160,7 +160,7 @@ void data_handler::split_data()
   }
 
   // Validation data
-  int count = 0;
+  count = 0;
   while(count < validation_size)
   {
     int rand_index = rand() % data_array->size(); // Random number between 0 and the size of the data array
