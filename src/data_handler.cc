@@ -126,52 +126,107 @@ void data_handler::read_feature_labels(std::string path)
 
 void data_handler::split_data()
 {
-  std::unordered_set<int> indexes;
-  int num_training = TRAIN_SET_PERCENT * data_array->size();
-  int num_test = TEST_SET_PERCENT * data_array->size();
-  int num_validation = VALIDATION_PERCENT * data_array->size();
+  std::unordered_set<int> used_indexes;
+  int training_size = TRAIN_SET_PERCENT * data_array->size();
+  int testing_size = TEST_SET_PERCENT * data_array->size();
+  int validation_size = VALIDATION_PERCENT * data_array->size();
 
-  while(indexes.size() < num_training)
+  // Training data
+  int count = 0;
+  while(count < training_size)
   {
-    indexes.insert(rand() % data_array->size());
-  }
-
-  for(int i = 0; i < data_array->size(); i++)
-  {
-    if(indexes.find(i) != indexes.end())
+    int rand_index = rand() % data_array->size(); // Random number between 0 and the size of the data array
+    if (used_indexes.find(rand_index) == used_indexes.end())
     {
-      training_data->push_back(data_array->at(i));
-    } else 
-    {
-      test_data->push_back(data_array->at(i));
+      // Notice how we are storing pointers to data objects not the data objects themselves
+      training_data->push_back(data_array->at(rand_index));
+      used_indexes.insert(rand_index);
+      count++;
     }
   }
 
-
-  indexes.clear();
-  while(indexes.size() < num_test)
+  // Test data
+  int count = 0;
+  while(count < testing_size)
   {
-    indexes.insert(rand() % test_data->size());
-  }
-  for(int i = 0; i < test_data->size(); i++)
-  {
-    if(indexes.find(i) != indexes.end())
+    int rand_index = rand() % data_array->size(); // Random number between 0 and the size of the data array
+    if (used_indexes.find(rand_index) == used_indexes.end())
     {
-      validation_data->push_back(test_data->at(i));
-    } else 
-    {
-      test_data->push_back(test_data->at(i));
+      // Notice how we are storing pointers to data objects not the data objects themselves
+      test_data->push_back(data_array->at(rand_index));
+      used_indexes.insert(rand_index);
+      count++;
     }
   }
+
+  // Validation data
+  int count = 0;
+  while(count < validation_size)
+  {
+    int rand_index = rand() % data_array->size(); // Random number between 0 and the size of the data array
+    if (used_indexes.find(rand_index) == used_indexes.end())
+    {
+      // Notice how we are storing pointers to data objects not the data objects themselves
+      validation_data->push_back(data_array->at(rand_index));
+      used_indexes.insert(rand_index);
+      count++;
+    }
+  }
+
+  // Sanity check
   printf("Training data size: %lu\n", training_data->size());
   printf("Test data size: %lu\n", test_data->size());
   printf("Validation data size: %lu\n", validation_data->size());
-
 }
-void count_classes();
 
-uint32_t convert_to_little_endian(const unsigned char* bytes);
-std::vector<data *> * get_training_data();
-std::vector<data *> * get_test_data();
-std::vector<data *> * get_validation_data();
+void data_handler::count_classes()
+{
+  int count = 0;
+  // Iterate through the data array and count the number of classes
+  for (unsigned int i = 0; i < data_array->size(); i++)
+  {
+    // If the class label is not in the map, add it
+    if(class_map.find(data_array->at(i)->get_label()) == class_map.end())
+    {
+      // Add the class label to the map
+      class_map[data_array->at(i)->get_label()] = count;
+      // Set the enumerated label
+      data_array->at(i)->set_enumerated_label(count);
+      count++;
+    }
+  }
 
+  num_classes = count;
+  printf("Successfuly Extracted %d Unique Classes.\n", num_classes);
+}
+
+uint32_t data_handler::convert_to_little_endian(const unsigned char* bytes)
+{
+  return (uint32_t) ((bytes[0] << 24) | (bytes[1] << 16) | (bytes[2] << 8) | bytes[3]);
+}
+
+std::vector<data *> * data_handler::get_training_data() 
+{
+  return training_data;
+}
+
+std::vector<data *> * data_handler::get_test_data()
+{
+  return test_data;
+}
+
+std::vector<data *> * data_handler::get_validation_data()
+{
+  return validation_data;
+}
+
+int main() 
+{
+  data_handler *dh = new data_handler();
+  dh->read_feature_vector("../data/train-images-idx3-ubyte");
+  dh->read_feature_labels("../data/train-labels-idx1-ubyte");
+  dh->split_data();
+  dh->count_classes();
+
+  return 0;
+}

@@ -29,6 +29,7 @@ class data_handler
 
   int num_classes;
   int feature_vector_size;
+  // Maps a class label to an enumerated value
   std::map<uint8_t, int> class_map;
   
   const double TRAIN_SET_PERCENT = 0.75;
