@@ -126,6 +126,7 @@ void data_handler::read_feature_labels(std::string path)
 
 void data_handler::split_data()
 {
+  printf("Splitting data into training data, test data, and validation data.\n");
   std::unordered_set<int> used_indexes;
   int training_size = TRAIN_SET_PERCENT * data_array->size();
   int testing_size = TEST_SET_PERCENT * data_array->size();
@@ -158,6 +159,7 @@ void data_handler::split_data()
       count++;
     }
   }
+
 
   // Validation data
   count = 0;
@@ -223,8 +225,8 @@ std::vector<data *> * data_handler::get_validation_data()
 int main() 
 {
   data_handler *dh = new data_handler();
-  dh->read_feature_vector("../data/train-images-idx3-ubyte");
-  dh->read_feature_labels("../data/train-labels-idx1-ubyte");
+  dh->read_feature_vector("data/train-images.idx3-ubyte");
+  dh->read_feature_labels("data/train-labels.idx1-ubyte");
   dh->split_data();
   dh->count_classes();
 
