@@ -47,6 +47,18 @@ The results of our experiments, including accuracy scores, performance metrics, 
 
 I welcome contributions from the community, including suggestions for additional algorithms to test, improvements to the codebase, and enhancements to the performance analysis. Please refer to the `CONTRIBUTING.md` file for more details on how to contribute to this project.
 
+## Usage Note
+
+The essence of this project is to create libraries to be further implemented elsewhere. To make libraries we will be using "Makefile" and running the scripts we want
+
+To use the "make" and "make clean" script you must run the following code in your terminal where the Makefile exists:
+
+$ export MNIST_ML_ROOT=$PWD  
+
+And in order to make a library is in your file path run the follwing code in your terminal while inside the "/lib" folder:
+
+$ export LD_LIBRARY_PATH=$PWD
+
 ## License
 
 Specify the license under which your project is released, ensuring that users and contributors are aware of their rights and obligations when using or contributing to your project.
