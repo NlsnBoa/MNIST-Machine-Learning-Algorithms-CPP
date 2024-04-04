@@ -2,7 +2,7 @@
 #define __KNN_H
 
 #include <vector>
-#include "data.hpp"
+#include "../../include/data.hpp"
 
 class knn 
 {

@@ -1,7 +1,7 @@
 CC=g++
 INCLUDE_DIR := $(MNIST_ML_ROOT)/include
 SRC := $(MNIST_ML_ROOT)/src
-CFLAGS := -std=c++11 -g
+CFLAGS := -shared -std=c++11 -g
 LIB_DATA := libdata.so
 
 all: $(LIB_DATA)

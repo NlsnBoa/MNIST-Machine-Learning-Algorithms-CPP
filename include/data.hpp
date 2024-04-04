@@ -28,11 +28,13 @@ class data
   void set_enumerated_label(int);
   void set_distance(double val);
   
+  
   int get_feature_vector_size();
   uint8_t get_label();
   uint8_t get_enumerated_label();
   
   std::vector<uint8_t> * get_feature_vector();
+  double get_distance();
 };
 
 #endif
