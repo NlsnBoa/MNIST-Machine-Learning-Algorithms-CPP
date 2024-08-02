@@ -24,7 +24,7 @@ class data_handler
 {
   std::vector<data *> *data_array; // all of the data (pre-split)
   std::vector<data *> *training_data;
-  std:: vector<data*> *test_data;
+  std::vector<data*> *test_data;
   std::vector<data *> *validation_data;
 
   int num_classes;

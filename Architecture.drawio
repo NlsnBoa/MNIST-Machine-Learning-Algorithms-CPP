@@ -1,0 +1,31 @@
+<mxfile host="65bd71144e">
+    <diagram id="EBTE2L9BBxQTS6oZsrdj" name="Page-1">
+        <mxGraphModel dx="1161" dy="446" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="#000000" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="4" value="Data" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;rounded=1;fontSize=14;fontStyle=0;strokeWidth=2;resizeParent=0;resizeLast=1;shadow=0;dashed=0;align=center;" vertex="1" parent="1">
+                    <mxGeometry x="-790" y="50" width="250" height="310" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="+ std::vector&lt; uint8_t &gt; * feature_vector&#10;+ uint8_t label&#10;+ int enum_label&#10;+ double distance&#10;&#10;void set_feature_vector&#10;void append_to_feature_vector&#10;void set_label&#10;void set_enumerated_label&#10;void set_distance&#10;&#10;&#10;int get_feature_vector_size&#10;uint8_t get_label&#10;uint8_t get_enumerated_label&#10;&#10;std::vector&lt; uint8_t &gt; * get_feature_vector&#10;double get_distance" style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;" vertex="1" parent="4">
+                    <mxGeometry y="30" width="250" height="280" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="" style="rounded=1;absoluteArcSize=1;html=1;arcSize=10;" vertex="1" parent="1">
+                    <mxGeometry x="-770" y="410" width="220" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="DataHandler" style="html=1;shape=mxgraph.er.anchor;whiteSpace=wrap;" vertex="1" parent="7">
+                    <mxGeometry width="110" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="9" value="Data" style="rounded=1;absoluteArcSize=1;html=1;arcSize=10;whiteSpace=wrap;points=[];strokeColor=inherit;fillColor=inherit;" vertex="1" parent="7">
+                    <mxGeometry x="110" y="10" width="99" height="180" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" value="DataHandler" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;rounded=1;fontSize=14;fontStyle=0;strokeWidth=2;resizeParent=0;resizeLast=1;shadow=0;dashed=0;align=center;" vertex="1" parent="1">
+                    <mxGeometry x="-450" y="50" width="250" height="400" as="geometry"/>
+                </mxCell>
+                <mxCell id="11" value="+ std::vecotr&lt;data *&gt; *data_array&#10;+ std::vector&lt;data *&gt; *training_data&#10;+ std::vector&lt;data*&gt; *test_data&#10;+ std::vector&lt;data *&gt; *validation_data&#10;+ int num_classes&#10;&#10;+ int feature_vector_size&#10;+ std::map&lt;uint8_t, int&gt; class_map&#10;&#10;+ const double TRAIN_SET_PERCENT&#10;+ const double TEST_SET_PERCENT&#10;+ const double VALIDATION_PERCENT&#10;&#10;void read_feature_vector(std::string path)&#10;void read_feature_labels(std::string path)&#10;&#10;void split_data&#10;void count_classes&#10;&#10;uint32_t convert_to_little_endian&#10;&#10;std::vector&lt;data *&gt; * get_training_data&#10;std::vector&lt;data *&gt; * get_test_data&#10;std::vector&lt;data *&gt; * get_validation_data  &#10;&#10;&#10;" style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;" vertex="1" parent="10">
+                    <mxGeometry y="30" width="250" height="370" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

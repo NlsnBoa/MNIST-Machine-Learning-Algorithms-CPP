@@ -2,11 +2,11 @@
 
 data::data()
 {
-  feature_vector = new std::vector<uint8_t>;
+  feature_vector = new std::vector<uint8_t>; // image as a vector of uint8_t
 }
 data::~data()
 {
-  delete feature_vector;
+  delete feature_vector; // free memory
 }
 
 void data::set_feature_vector(std:: vector<uint8_t> *vect)

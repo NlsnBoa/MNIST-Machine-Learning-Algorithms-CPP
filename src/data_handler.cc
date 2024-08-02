@@ -49,25 +49,29 @@ void data_handler::read_feature_vector(std::string path)
     // Each image is 28 * 28 = 784 bytes
     for(int i = 0; i < num_images; i++)
     {
-      // Create a new data object
+      // Create a new data object to store the image data
       data *d = new data();
       uint8_t element[1];
-      // Read the image data
+      // Read the image data pixel = 1 byte
       for(int j = 0; j < image_size; j++)
       {
-        // Read the pixel value
+        // Read the pixel value/ 1 byte
         if(fread(element, sizeof(element), 1, file))
         {
-          d->append_to_feature_vector(element[0]);
+          d->append_to_feature_vector(element[0]); // Append the pixel value to the data object feature vector 
         } else 
         {
           printf("Error reading image data.\n");
           exit(1);
         }
       }
-      // Add the data object to the data array
+      // Add the data object to the data array. 
+      // Notice how we are storing pointers to data objects not the data objects themselves
       data_array->push_back(d);
     }
+    // Sanity check. Each image is a feature vector of size 784 bytes.
+    // remember that feature vectors are the dependent variables in the data
+    // and the label is the independent variable which would be the number 0-9 in this case.
     printf("Successfully read and stored %lu feature vectors.\n", data_array->size());
     
   } else 
@@ -101,6 +105,9 @@ void data_handler::read_feature_labels(std::string path)
     int num_labels = header[1];
 
     // Read the label data
+    // Each label is 1 byte
+    // Each label corresponds to an image
+    // We must store the label in a data object it corresponds to
     for(int i = 0; i < num_labels; i++)
     {
       uint8_t element[1];
@@ -108,6 +115,7 @@ void data_handler::read_feature_labels(std::string path)
       // We must store the label in a data object it corresponds to
       if(fread(element, sizeof(element), 1, file))
       {
+        // Set the label in the data object.
         data_array->at(i)->set_label(element[0]);
       } else 
       {
@@ -124,6 +132,10 @@ void data_handler::read_feature_labels(std::string path)
   }
 }
 
+// With cross-validation, we split the data into training data, test data, and validation data
+// We use the training data to train the model
+// We use the test data to test the model
+// We use the validation data to validate the model
 void data_handler::split_data()
 {
   printf("Splitting data into training data, test data, and validation data.\n");
@@ -181,6 +193,8 @@ void data_handler::split_data()
   printf("Validation data size: %lu\n", validation_data->size());
 }
 
+// Count the number of classes in the data and map the class labels to enumerated values
+// The class labels are the independent variables in the data
 void data_handler::count_classes()
 {
   int count = 0;
@@ -191,11 +205,13 @@ void data_handler::count_classes()
     if(class_map.find(data_array->at(i)->get_label()) == class_map.end())
     {
       // Add the class label to the map
+      // The class label is the key and the enumerated value is the value
       class_map[data_array->at(i)->get_label()] = count;
-      // Set the enumerated label
-      data_array->at(i)->set_enumerated_label(count);
       count++;
     }
+
+    // Set the enumerated label
+    data_array->at(i)->set_enumerated_label(count);
   }
 
   num_classes = count;
