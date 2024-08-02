@@ -197,21 +197,24 @@ void data_handler::split_data()
 // The class labels are the independent variables in the data
 void data_handler::count_classes()
 {
+
   int count = 0;
   // Iterate through the data array and count the number of classes
   for (unsigned int i = 0; i < data_array->size(); i++)
   {
+
+    int current_label = data_array->at(i)->get_label();
     // If the class label is not in the map, add it
-    if(class_map.find(data_array->at(i)->get_label()) == class_map.end())
+    if(class_map.find(current_label) == class_map.end())
     {
       // Add the class label to the map
       // The class label is the key and the enumerated value is the value
-      class_map[data_array->at(i)->get_label()] = count;
+      class_map[current_label] = count;
       count++;
     }
 
     // Set the enumerated label
-    data_array->at(i)->set_enumerated_label(count);
+    data_array->at(i)->set_enumerated_label(class_map[current_label]);
   }
 
   num_classes = count;
